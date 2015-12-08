@@ -11,24 +11,17 @@
 #include "VAD.h"
 
 int main(int argc, const char * argv[]) {
-    
-    
-    
     for (int i = 0; i < 1000; i++) {
-        VADRef vad = createVAD();
-        
-        
-        
+        VADContextRef context = VADContextCreate();
+
         for (int j = 0; j < 1000; j++) {
             short tmp[] = {1, 2, 3, 4};
-            
-            processVADFrame(vad, (const short *)&tmp, 4);
+            VADContextAnalyseFrames(context, tmp, 4);
         }
-        
-        destroyVAD(vad);
+
+        VADContextRelease(context);
     }
-    
     printf("Hello, World!\n");
-    
+
     return 0;
 }

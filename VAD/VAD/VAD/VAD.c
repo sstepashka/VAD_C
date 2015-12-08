@@ -16,191 +16,270 @@
 
 #define CHUNK_SIZE 160
 
-struct VAD {
+//  ZCR stands for Zero Crossing Rate
+#define ZCR_MIN  5
+#define ZCR_MAX 15
+
+//  Defines minimal permissible energy value
+#define NOISE_ENERGY_MIN    0.001818
+
+struct VADContext {
     VADState state;
     short *buffer;
-    unsigned int frames_count;
-    
+    size_t frames_count;
+
     float energy_factor;
-    unsigned int first_frames_count;
-    unsigned int noise_frames_count;
-    
+    size_t first_frames_count;
+    size_t noise_frames_count;
+
     float noise_energy;
+
+    size_t frame_number;
+    double last_active_time;
+    double last_sequence_time;
+    size_t sequence_counter;
+    double time;
+
+    double max_silence_length_milis;
+    double min_silence_length_milis;
+    double silence_length_milis;
+    double sequence_length_milis;
+    size_t min_sequence_count;
+
+    double sample_rate;
 };
 
-void freeBuffer(VADRef self) {
-    if(self->buffer) {
-        free(self->buffer);
-        self->buffer = NULL;
-    }
-    
-    self->frames_count = 0;
+void VADContextReleaseBuffer(VADContextRef context);
+
+void VADContextPushFrames(const VADContextRef context, const short *frames, size_t frames_count);
+short *VADContextPopFrames(const VADContextRef context, size_t frames_count);
+
+VADState VADContextProcessFrames(const VADContextRef context, const short *frames, size_t frames_count);
+
+float VADFrameCalculateEnergy(const float *frames, size_t frames_count);
+float *VADFrameNormalize(const short *frames, size_t frames_count);
+size_t VADFrameCalculateZeroCrossingRate(const short *frame, size_t frames_count);
+
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///                 Life-cycle
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+VADContextRef VADContextCreate() {
+    VADContextRef context = (VADContextRef)malloc(sizeof(struct VADContext));
+
+    context->buffer = NULL;
+    context->frames_count = 0;
+
+    VADContextReset(context);
+
+    return context;
 }
 
-VADRef createVAD()
+void VADContextRelease(VADContextRef context) {
+    VADContextReleaseBuffer(context);
+    free(context);
+
+    context = NULL;
+}
+
+void VADContextReleaseBuffer(VADContextRef context) {
+    if (context->buffer) {
+        free(context->buffer);
+        context->buffer = NULL;
+    }
+
+    context->frames_count = 0;
+}
+
+void VADContextReset(const VADContextRef context) {
+    context->state = VADStateUnknown;
+    VADContextReleaseBuffer(context);
+
+    context->frames_count = 0;
+    context->energy_factor = 3.1f;
+    context->first_frames_count = 0;
+    context->noise_frames_count = 15;
+    context->noise_energy = 0.f;
+
+    context->frame_number = 0;
+    context->last_active_time = -1.0;
+    context->last_sequence_time = 0.0;
+    context->sequence_counter = 0;
+    context->time = 0.f;
+
+    context->min_silence_length_milis = 0.8;
+    context->silence_length_milis = context->max_silence_length_milis = 3.5;
+    context->sequence_length_milis = 0.03;
+    context->min_sequence_count = 3;
+
+    context->sample_rate = 16000.0;
+
+    context->state = VADStateUnknown;
+}
+
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///                 Analysis
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+VADState VADContextAnalyseFrames(const VADContextRef context, const short *frames, size_t frames_count)
 {
-    VADRef self = (VADRef) malloc(sizeof(struct VAD));
-
-    self->buffer = NULL;
-    self->frames_count = 0;
-    
-    resetVAD(self);
-    
-    return self;
-}
-
-void appendBufferVAD(const VADRef self, const short *frame, unsigned int frames_count) {
-    if (!frame) return;
-    if (!frames_count) return;
-    
-    unsigned int current_frames_count = self->frames_count;
-    unsigned int received_frames_count = frames_count;
-    unsigned int total_frames_count = current_frames_count + received_frames_count;
-    
-    short *res = (short *)malloc(sizeof(short) * total_frames_count);
-    
-    if (current_frames_count) {
-        memcpy(res, self->buffer, current_frames_count * sizeof(short));
-        memcpy(res + current_frames_count, frame, received_frames_count * sizeof(short));
-        free(self->buffer);
-        self->buffer = res;
-    } else {
-        memcpy(res, frame, received_frames_count * sizeof(short));
-        self->buffer = res;
+    if (!context) {
+        return VADStateError;
     }
-    
-    self->frames_count = total_frames_count;
-}
-
-void popDataChunk(VADRef self, short *data) {
-    unsigned int chunk_size = CHUNK_SIZE;
-    
-    if (!data) {
-        exit(-1);
+    else if (!frames || (frames_count == 0)) {
+        context->state = VADStateError;
     }
-    
-    if (self->frames_count < chunk_size) {
-        exit(-2);
+    else if ((context->state == VADStateEndOfSpeech) || (context->state == VADStateError)) {
+        return context->state;
     }
-    
-    unsigned int current_size = self->frames_count;
-    unsigned int result_size = current_size - chunk_size;
-    
-    short *res = (short *)malloc(sizeof(short) * result_size);
-    memcpy(res, self->buffer + chunk_size, result_size * sizeof(short));
-    memcpy(data, self->buffer, chunk_size * sizeof(short));
-    
-    free(self->buffer);
-    self->buffer = res;
-    self->frames_count = result_size;
-}
-
-float energyFrame(float *frame, unsigned int size) {
-    float energy = 0;
-    for (int i = 0; i < size; i++) {
-        energy += frame[i] * frame[i];
-    }
-    
-    return energy / (float)size;
-}
-
-float *normalize(short *frame, unsigned int size) {
-    float *normalized = (float *)malloc(sizeof(float) * size);
-    
-    for (int i = 0; i < size; i++) {
-        normalized[i] = frame[i] / SHRT_MAX;
-    }
-    
-    return normalized;
-}
-
-unsigned int cross_zero_count_frame(short *frame, unsigned int size) {
-    int sign = 0;
-    int lastsign = 0;
-    
-    unsigned int cross_zero_count = 0;
-    
-    for (int i = 0; i < size; i++) {
-        if (frame[i] > 0) {
-            sign = 1;
-        } else {
-            sign = -1;
-        }
-        
-        if (lastsign != 0 && sign != lastsign) {
-            cross_zero_count ++;
-            lastsign = sign;
-        }
-    }
-    
-    return cross_zero_count;
-}
-
-VADState processChunk(const VADRef self, short *chunk, unsigned int size) {
-    float *normalized = normalize(chunk, size);
-
-    float energy = energyFrame(normalized, size);
-    
-    unsigned int cross_zero_count = cross_zero_count_frame(chunk, size);
-    
-    bool is_frame_active = false;
-    
-    if (self->first_frames_count < self->noise_frames_count) {
-        self->first_frames_count ++;
-        self->noise_energy += energy / (float)self->noise_frames_count;
-        
-        is_frame_active = false;
-    } else {
-        if (cross_zero_count >= 5 && cross_zero_count <= 15) {
-            if (energy >= fmaxf(self->noise_energy, 0.001818) * self->energy_factor) {
-                is_frame_active = true;
+    else {
+        VADContextPushFrames(context, frames, frames_count);
+        while ((context->frames_count > CHUNK_SIZE) && (context->state != VADStateEndOfSpeech)) {
+            short *const chunk = VADContextPopFrames(context, CHUNK_SIZE);
+            if (chunk == NULL) {
+                context->state = VADStateError;
+                break;
             }
-        }
-    }
-    
-    free(normalized);
-    
-    VADState state = VADStateUnknown;
-    
-    return state;
-}
 
-VADState processVADFrame(const VADRef self, const short *frame, unsigned int frames_count)
-{
-    if (self->state == VADStateEndOfSpeech) {
-        return VADStateEndOfSpeech;
-    } else {
-        appendBufferVAD(self, frame, frames_count);
-        
-        while (self->frames_count > CHUNK_SIZE && self->state != VADStateEndOfSpeech) {
-            short *chunk = (short *)malloc(sizeof(short) * CHUNK_SIZE);
-            popDataChunk(self, chunk);
-            self->state = processChunk(self, chunk, CHUNK_SIZE);
+            context->state = VADContextProcessFrames(context, chunk, CHUNK_SIZE);
             free(chunk);
         }
     }
 
-    return self->state;
+    return context->state;
 }
 
-void resetVAD(const VADRef self)
-{
-    self->state = VADStateUnknown;
-    freeBuffer(self);
-    
-    self->frames_count = 0;
-    self->energy_factor = 3.1f;
-    self->first_frames_count = 0;
-    self->noise_frames_count = 15;
-    self->noise_energy = 0.f;
-    
-    self->state = VADStateUnknown;
+void VADContextPushFrames(const VADContextRef context, const short *frames, size_t frames_count) {
+    size_t const current_frames_count = context->frames_count;
+    size_t const received_frames_count = frames_count;
+    size_t const total_frames_count = current_frames_count + received_frames_count;
+
+    short *res = (short *)malloc(sizeof(short) * total_frames_count);
+    if (current_frames_count) {
+        memcpy(res, context->buffer, current_frames_count * sizeof(short));
+        memcpy(res + current_frames_count, frames, received_frames_count * sizeof(short));
+        free(context->buffer);
+    }
+    else {
+        memcpy(res, frames, received_frames_count * sizeof(short));
+    }
+    context->buffer = res;
+    res = NULL;
+
+    context->frames_count = total_frames_count;
 }
 
-void destroyVAD(VADRef self)
-{
-    freeBuffer(self);
-    free(self);
-    
-    self = NULL;
+short *VADContextPopFrames(const VADContextRef context, size_t frames_count) {
+    if (context->frames_count < frames_count) {
+        return NULL;
+    }
+
+    size_t const current_size = context->frames_count;
+    size_t const result_size = current_size - frames_count;
+
+    short *res = (short *)malloc(sizeof(short) * result_size);
+    short *frames = (short *)malloc(sizeof(short) * frames_count);
+
+    memcpy(res, context->buffer + frames_count, result_size * sizeof(short));
+    memcpy(frames, context->buffer, frames_count * sizeof(short));
+
+    free(context->buffer);
+    context->buffer = res;
+    res = NULL;
+
+    context->frames_count = result_size;
+
+    return frames;
 }
+
+VADState VADContextProcessFrames(const VADContextRef context, const short *frames, size_t frames_count) {
+    // XXX: Wouldn't it be more efficient to calculate energy on demand?
+    float *normalized_frames = VADFrameNormalize(frames, frames_count);
+    float const energy = VADFrameCalculateEnergy(normalized_frames, frames_count);
+    free(normalized_frames);
+
+    bool is_frame_active = false;
+    if (context->first_frames_count < context->noise_frames_count) {
+        context->first_frames_count++;
+        context->noise_energy += energy / (float)context->noise_frames_count;
+
+        is_frame_active = false; // XXX: Isn't this redundant?
+    }
+    else {
+        size_t const zcr = VADFrameCalculateZeroCrossingRate(frames, frames_count);
+        if ((zcr >= ZCR_MIN) && (zcr <= ZCR_MAX)) {
+            if (energy >= fmaxf(context->noise_energy, NOISE_ENERGY_MIN) * context->energy_factor) {
+                is_frame_active = true;
+            }
+        }
+    }
+
+    // XXX: Souldn't the 'time' variable be local? Is it really necessary to keep it in the context?
+    context->time = ((++context->frame_number) * (double)CHUNK_SIZE) / context->sample_rate;
+
+    if (is_frame_active) {
+        if ((context->last_active_time >= 0) && (context->time - context->last_active_time) < context->sequence_length_milis) {
+            context->sequence_counter++;
+            if (context->sequence_counter >= context->min_sequence_count) {
+                context->last_sequence_time = context->time;
+                context->silence_length_milis = fmax(context->min_silence_length_milis, context->silence_length_milis - (context->max_silence_length_milis - context->min_silence_length_milis) / 4);
+            }
+        }
+        else {
+            context->sequence_counter = 1;
+        }
+        context->last_active_time = context->time;
+    }
+    else {
+        if (context->time - context->last_sequence_time > context->silence_length_milis) {
+            return (context->last_sequence_time > 0) ? VADStateEndOfSpeech : VADStateNoSpeech;
+        }
+    }
+
+    return VADStateInProgress;
+}
+
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+///         Frame-specific functions
+/// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+float VADFrameCalculateEnergy(const float *frames, size_t frames_count) {
+    float energy = 0.f;
+    for (size_t i = 0; i < frames_count; i++) {
+        energy += frames[i] * frames[i];
+    }
+
+    return energy / (float)frames_count;
+}
+
+float *VADFrameNormalize(const short *frames, size_t frames_count) {
+    float *const normalized_frames = (float *)malloc(sizeof(float) * frames_count);
+    for (size_t i = 0; i < frames_count; i++) {
+        normalized_frames[i] = frames[i] / SHRT_MAX;
+    }
+
+    return normalized_frames;
+}
+
+size_t VADFrameCalculateZeroCrossingRate(const short *frame, size_t frames_count) {
+    size_t zrc = 0;
+    short sign = 0;
+    short last_sign = 0;
+    for (size_t i = 0; i < frames_count; i++) {
+        sign = (frame[i] > 0) ? 1 : -1;
+
+        if ((last_sign != 0) && (sign != last_sign)) {
+            last_sign = sign;
+            zrc++;
+        }
+    }
+
+    return zrc;
+}
+
+#undef CHUNK_SIZE
+
+#undef ZCR_MIN
+#undef ZCR_MAX
+
+#undef NOISE_ENERGY_MIN
