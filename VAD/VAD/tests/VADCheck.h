@@ -7,7 +7,8 @@
 #define VADCheck_h
 
 #include <stdio.h>
-#include "VAD.h"
+
+#include "VADState.h"
 
 typedef enum {
     AudioFileEncoding_16bit_PCM_big_endian_16000_mono = 0,

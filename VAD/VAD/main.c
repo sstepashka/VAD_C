@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 
-#include "VAD.h"
 #include "VADCheck.h"
 
 int main(int argc, const char * argv[]) {
