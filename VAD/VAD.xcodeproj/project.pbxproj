@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		58C0C98F1BCFB266007D4002 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 58C0C98E1BCFB266007D4002 /* main.c */; };
-		58C0C99A1BCFB2A4007D4002 /* VAD.c in Sources */ = {isa = PBXBuildFile; fileRef = 58C0C9981BCFB2A4007D4002 /* VAD.c */; settings = {ASSET_TAGS = (); }; };
+		58C0C99A1BCFB2A4007D4002 /* VAD.c in Sources */ = {isa = PBXBuildFile; fileRef = 58C0C9981BCFB2A4007D4002 /* VAD.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +28,27 @@
 		58C0C98E1BCFB266007D4002 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		58C0C9981BCFB2A4007D4002 /* VAD.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VAD.c; sourceTree = "<group>"; };
 		58C0C9991BCFB2A4007D4002 /* VAD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAD.h; sourceTree = "<group>"; };
+		CEB5E0151C17D383000B5E65 /* count-hammer.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "count-hammer.raw"; sourceTree = "<group>"; };
+		CEB5E0161C17D383000B5E65 /* count.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = count.raw; sourceTree = "<group>"; };
+		CEB5E0171C17D383000B5E65 /* count1.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = count1.raw; sourceTree = "<group>"; };
+		CEB5E0181C17D383000B5E65 /* sound1.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound1.raw; sourceTree = "<group>"; };
+		CEB5E0191C17D383000B5E65 /* window.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = window.raw; sourceTree = "<group>"; };
+		CEB5E01A1C17D383000B5E65 /* z01.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = z01.raw; sourceTree = "<group>"; };
+		CEB5E01B1C17D383000B5E65 /* z03.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = z03.raw; sourceTree = "<group>"; };
+		CEB5E01D1C17D383000B5E65 /* count-hammer.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "count-hammer.raw"; sourceTree = "<group>"; };
+		CEB5E01E1C17D383000B5E65 /* count.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = count.raw; sourceTree = "<group>"; };
+		CEB5E01F1C17D383000B5E65 /* count1.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = count1.raw; sourceTree = "<group>"; };
+		CEB5E0201C17D383000B5E65 /* sound1.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound1.raw; sourceTree = "<group>"; };
+		CEB5E0211C17D383000B5E65 /* window.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = window.raw; sourceTree = "<group>"; };
+		CEB5E0221C17D383000B5E65 /* z01.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = z01.raw; sourceTree = "<group>"; };
+		CEB5E0231C17D383000B5E65 /* z03.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = z03.raw; sourceTree = "<group>"; };
+		CEB5E0251C17D383000B5E65 /* count-hammer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "count-hammer.wav"; sourceTree = "<group>"; };
+		CEB5E0261C17D383000B5E65 /* count.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = count.wav; sourceTree = "<group>"; };
+		CEB5E0271C17D383000B5E65 /* count1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = count1.wav; sourceTree = "<group>"; };
+		CEB5E0281C17D383000B5E65 /* sound1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sound1.wav; sourceTree = "<group>"; };
+		CEB5E0291C17D383000B5E65 /* window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = window.wav; sourceTree = "<group>"; };
+		CEB5E02A1C17D383000B5E65 /* z01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = z01.wav; sourceTree = "<group>"; };
+		CEB5E02B1C17D383000B5E65 /* z03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = z03.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +81,7 @@
 		58C0C98D1BCFB266007D4002 /* VAD */ = {
 			isa = PBXGroup;
 			children = (
+				CEB5E00A1C17CB28000B5E65 /* tests */,
 				58C0C9971BCFB292007D4002 /* VAD */,
 				58C0C98E1BCFB266007D4002 /* main.c */,
 			);
@@ -73,6 +95,66 @@
 				58C0C9991BCFB2A4007D4002 /* VAD.h */,
 			);
 			path = VAD;
+			sourceTree = "<group>";
+		};
+		CEB5E00A1C17CB28000B5E65 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				CEB5E0131C17D383000B5E65 /* sounds */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
+		CEB5E0131C17D383000B5E65 /* sounds */ = {
+			isa = PBXGroup;
+			children = (
+				CEB5E0141C17D383000B5E65 /* 16bit_PCM_big_endian_16000_mono */,
+				CEB5E01C1C17D383000B5E65 /* 16bit_PCM_intel_endian_16000_mono */,
+				CEB5E0241C17D383000B5E65 /* original */,
+			);
+			path = sounds;
+			sourceTree = "<group>";
+		};
+		CEB5E0141C17D383000B5E65 /* 16bit_PCM_big_endian_16000_mono */ = {
+			isa = PBXGroup;
+			children = (
+				CEB5E0151C17D383000B5E65 /* count-hammer.raw */,
+				CEB5E0161C17D383000B5E65 /* count.raw */,
+				CEB5E0171C17D383000B5E65 /* count1.raw */,
+				CEB5E0181C17D383000B5E65 /* sound1.raw */,
+				CEB5E0191C17D383000B5E65 /* window.raw */,
+				CEB5E01A1C17D383000B5E65 /* z01.raw */,
+				CEB5E01B1C17D383000B5E65 /* z03.raw */,
+			);
+			path = 16bit_PCM_big_endian_16000_mono;
+			sourceTree = "<group>";
+		};
+		CEB5E01C1C17D383000B5E65 /* 16bit_PCM_intel_endian_16000_mono */ = {
+			isa = PBXGroup;
+			children = (
+				CEB5E01D1C17D383000B5E65 /* count-hammer.raw */,
+				CEB5E01E1C17D383000B5E65 /* count.raw */,
+				CEB5E01F1C17D383000B5E65 /* count1.raw */,
+				CEB5E0201C17D383000B5E65 /* sound1.raw */,
+				CEB5E0211C17D383000B5E65 /* window.raw */,
+				CEB5E0221C17D383000B5E65 /* z01.raw */,
+				CEB5E0231C17D383000B5E65 /* z03.raw */,
+			);
+			path = 16bit_PCM_intel_endian_16000_mono;
+			sourceTree = "<group>";
+		};
+		CEB5E0241C17D383000B5E65 /* original */ = {
+			isa = PBXGroup;
+			children = (
+				CEB5E0251C17D383000B5E65 /* count-hammer.wav */,
+				CEB5E0261C17D383000B5E65 /* count.wav */,
+				CEB5E0271C17D383000B5E65 /* count1.wav */,
+				CEB5E0281C17D383000B5E65 /* sound1.wav */,
+				CEB5E0291C17D383000B5E65 /* window.wav */,
+				CEB5E02A1C17D383000B5E65 /* z01.wav */,
+				CEB5E02B1C17D383000B5E65 /* z03.wav */,
+			);
+			path = original;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,6 +331,7 @@
 				58C0C9941BCFB266007D4002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
