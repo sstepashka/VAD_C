@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		58C0C98F1BCFB266007D4002 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 58C0C98E1BCFB266007D4002 /* main.c */; };
-		58C0C99A1BCFB2A4007D4002 /* VAD.c in Sources */ = {isa = PBXBuildFile; fileRef = 58C0C9981BCFB2A4007D4002 /* VAD.c */; };
+		58C0C99A1BCFB2A4007D4002 /* VADContext.c in Sources */ = {isa = PBXBuildFile; fileRef = 58C0C9981BCFB2A4007D4002 /* VADContext.c */; };
 		CEFA6EE41C17DC330099E66B /* count-hammer.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0151C17D383000B5E65 /* count-hammer.raw */; };
 		CEFA6EE51C17DC330099E66B /* count.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0161C17D383000B5E65 /* count.raw */; };
 		CEFA6EE61C17DC330099E66B /* count1.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0171C17D383000B5E65 /* count1.raw */; };
@@ -66,8 +66,8 @@
 /* Begin PBXFileReference section */
 		58C0C98B1BCFB266007D4002 /* VAD */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VAD; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C0C98E1BCFB266007D4002 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		58C0C9981BCFB2A4007D4002 /* VAD.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VAD.c; sourceTree = "<group>"; };
-		58C0C9991BCFB2A4007D4002 /* VAD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VAD.h; sourceTree = "<group>"; };
+		58C0C9981BCFB2A4007D4002 /* VADContext.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VADContext.c; sourceTree = "<group>"; };
+		58C0C9991BCFB2A4007D4002 /* VADContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VADContext.h; sourceTree = "<group>"; };
 		CEB5E0151C17D383000B5E65 /* count-hammer.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = "count-hammer.raw"; sourceTree = "<group>"; };
 		CEB5E0161C17D383000B5E65 /* count.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = count.raw; sourceTree = "<group>"; };
 		CEB5E0171C17D383000B5E65 /* count1.raw */ = {isa = PBXFileReference; lastKnownFileType = file; path = count1.raw; sourceTree = "<group>"; };
@@ -91,6 +91,8 @@
 		CEB5E02B1C17D383000B5E65 /* z03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = z03.wav; sourceTree = "<group>"; };
 		CEFA6EF31C17DD930099E66B /* VADCheck.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VADCheck.c; sourceTree = "<group>"; };
 		CEFA6EF41C17DD930099E66B /* VADCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VADCheck.h; sourceTree = "<group>"; };
+		CEFA6EF61C181DB10099E66B /* VADState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VADState.h; sourceTree = "<group>"; };
+		CEFA6EF71C181ED30099E66B /* VAD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VAD.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,8 +135,10 @@
 		58C0C9971BCFB292007D4002 /* VAD */ = {
 			isa = PBXGroup;
 			children = (
-				58C0C9981BCFB2A4007D4002 /* VAD.c */,
-				58C0C9991BCFB2A4007D4002 /* VAD.h */,
+				58C0C9981BCFB2A4007D4002 /* VADContext.c */,
+				58C0C9991BCFB2A4007D4002 /* VADContext.h */,
+				CEFA6EF61C181DB10099E66B /* VADState.h */,
+				CEFA6EF71C181ED30099E66B /* VAD.h */,
 			);
 			path = VAD;
 			sourceTree = "<group>";
@@ -260,7 +264,7 @@
 			files = (
 				CEFA6EF51C17DD930099E66B /* VADCheck.c in Sources */,
 				58C0C98F1BCFB266007D4002 /* main.c in Sources */,
-				58C0C99A1BCFB2A4007D4002 /* VAD.c in Sources */,
+				58C0C99A1BCFB2A4007D4002 /* VADContext.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

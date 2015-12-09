@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 #include "VADCheck.h"
+#include "VADContext.h"
 
 static const char *const VADSubpath_16bit_PCM_big_endian_16000_mono =
     "/16bit_PCM_big_endian_16000_mono/";

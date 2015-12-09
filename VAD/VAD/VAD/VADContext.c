@@ -1,12 +1,12 @@
 //
-//  VAD.c
+//  VADContext.c
 //  VAD
 //
 //  Created by Kuragin Dmitriy on 15/10/15.
 //  Copyright © 2015 Kuragin Dmitriy. All rights reserved.
 //
 
-#include "VAD.h"
+#include "VADContext.h"
 
 #include <stdlib.h>
 #include <string.h>
