@@ -12,18 +12,19 @@
 #include <stdio.h>
 
 typedef enum {
+    VADStateError = -2,
     VADStateUnknown = -1,
     VADStateInProgress = 1,
-    VADStateEndOfSpeech = 2
+    VADStateEndOfSpeech = 2,
+    VADStateNoSpeech = 3
 } VADState;
 
-typedef struct VAD* VADRef;
+typedef struct VADContext *VADContextRef;
 
-VADRef createVAD();
-VADState processVADFrameNormalized(const VADRef, const short *frame, unsigned int frames_count);
-VADState processVADFrame16(const VADRef, const short *frame, unsigned int frames_count);
-VADState processVADFrame24(const VADRef, const short *frame, unsigned int frames_count);
-void resetVAD(const VADRef);
-void destroyVAD(VADRef);
+VADContextRef VADContextCreate();
+void VADContextRelease(VADContextRef context);
+
+VADState VADContextAnalyseFrames(const VADContextRef context, const short *frames, size_t frames_count);
+void VADContextReset(const VADContextRef context);
 
 #endif /* VAD_h */

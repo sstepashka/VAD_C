@@ -9,26 +9,20 @@
 #include <stdio.h>
 
 #include "VAD.h"
+#include "VADCheck.h"
 
 int main(int argc, const char * argv[]) {
-    
-    
-    
-    for (int i = 0; i < 1000; i++) {
-        VADRef vad = createVAD();
-        
-        
-        
-        for (int j = 0; j < 1000; j++) {
-            short tmp[] = {1, 2, 3, 4};
-            
-            processVADFrame(vad, (const short *)&tmp, 4);
-        }
-        
-        destroyVAD(vad);
-    }
-    
-    printf("Hello, World!\n");
-    
+
+    VADAnalyseAudioFile("count-hammer.raw", AudioFileEncoding_16bit_PCM_intel_endian_16000_mono);
+    VADAnalyseAudioFile("count.raw", AudioFileEncoding_16bit_PCM_intel_endian_16000_mono);
+    VADAnalyseAudioFile("count1.raw", AudioFileEncoding_16bit_PCM_intel_endian_16000_mono);
+    VADAnalyseAudioFile("sound1.raw", AudioFileEncoding_16bit_PCM_intel_endian_16000_mono);
+
+    // XXX: This test fails, but it doesn't seem to be critical for now.
+    VADAnalyseAudioFile("window.raw", AudioFileEncoding_16bit_PCM_intel_endian_16000_mono);
+
+    VADAnalyseAudioFile("z01.raw", AudioFileEncoding_16bit_PCM_intel_endian_16000_mono);
+    VADAnalyseAudioFile("z03.raw", AudioFileEncoding_16bit_PCM_intel_endian_16000_mono);
+
     return 0;
 }
