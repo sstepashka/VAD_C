@@ -9,17 +9,57 @@
 /* Begin PBXBuildFile section */
 		58C0C98F1BCFB266007D4002 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 58C0C98E1BCFB266007D4002 /* main.c */; };
 		58C0C99A1BCFB2A4007D4002 /* VAD.c in Sources */ = {isa = PBXBuildFile; fileRef = 58C0C9981BCFB2A4007D4002 /* VAD.c */; };
+		CEFA6EE41C17DC330099E66B /* count-hammer.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0151C17D383000B5E65 /* count-hammer.raw */; };
+		CEFA6EE51C17DC330099E66B /* count.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0161C17D383000B5E65 /* count.raw */; };
+		CEFA6EE61C17DC330099E66B /* count1.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0171C17D383000B5E65 /* count1.raw */; };
+		CEFA6EE71C17DC330099E66B /* sound1.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0181C17D383000B5E65 /* sound1.raw */; };
+		CEFA6EE81C17DC330099E66B /* window.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0191C17D383000B5E65 /* window.raw */; };
+		CEFA6EE91C17DC330099E66B /* z01.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E01A1C17D383000B5E65 /* z01.raw */; };
+		CEFA6EEA1C17DC330099E66B /* z03.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E01B1C17D383000B5E65 /* z03.raw */; };
+		CEFA6EEC1C17DCD60099E66B /* count-hammer.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E01D1C17D383000B5E65 /* count-hammer.raw */; };
+		CEFA6EED1C17DCD60099E66B /* count.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E01E1C17D383000B5E65 /* count.raw */; };
+		CEFA6EEE1C17DCD70099E66B /* count1.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E01F1C17D383000B5E65 /* count1.raw */; };
+		CEFA6EEF1C17DCD70099E66B /* sound1.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0201C17D383000B5E65 /* sound1.raw */; };
+		CEFA6EF01C17DCD70099E66B /* window.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0211C17D383000B5E65 /* window.raw */; };
+		CEFA6EF11C17DCD70099E66B /* z01.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0221C17D383000B5E65 /* z01.raw */; };
+		CEFA6EF21C17DCD70099E66B /* z03.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */ = {isa = PBXBuildFile; fileRef = CEB5E0231C17D383000B5E65 /* z03.raw */; };
+		CEFA6EF51C17DD930099E66B /* VADCheck.c in Sources */ = {isa = PBXBuildFile; fileRef = CEFA6EF31C17DD930099E66B /* VADCheck.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		58C0C9891BCFB266007D4002 /* CopyFiles */ = {
+		58C0C9891BCFB266007D4002 /* Copy 16bit_PCM_big_endian_16000_mono Sounds */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = 16bit_PCM_big_endian_16000_mono;
+			dstSubfolderSpec = 7;
+			files = (
+				CEFA6EE41C17DC330099E66B /* count-hammer.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */,
+				CEFA6EE51C17DC330099E66B /* count.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */,
+				CEFA6EE61C17DC330099E66B /* count1.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */,
+				CEFA6EE71C17DC330099E66B /* sound1.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */,
+				CEFA6EE81C17DC330099E66B /* window.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */,
+				CEFA6EE91C17DC330099E66B /* z01.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */,
+				CEFA6EEA1C17DC330099E66B /* z03.raw in Copy 16bit_PCM_big_endian_16000_mono Sounds */,
+			);
+			name = "Copy 16bit_PCM_big_endian_16000_mono Sounds";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEFA6EEB1C17DCBD0099E66B /* Copy 16bit_PCM_intel_endian_16000_mono Sounds */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstPath = 16bit_PCM_intel_endian_16000_mono;
+			dstSubfolderSpec = 7;
 			files = (
+				CEFA6EEC1C17DCD60099E66B /* count-hammer.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */,
+				CEFA6EED1C17DCD60099E66B /* count.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */,
+				CEFA6EEE1C17DCD70099E66B /* count1.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */,
+				CEFA6EEF1C17DCD70099E66B /* sound1.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */,
+				CEFA6EF01C17DCD70099E66B /* window.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */,
+				CEFA6EF11C17DCD70099E66B /* z01.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */,
+				CEFA6EF21C17DCD70099E66B /* z03.raw in Copy 16bit_PCM_intel_endian_16000_mono Sounds */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			name = "Copy 16bit_PCM_intel_endian_16000_mono Sounds";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -49,6 +89,8 @@
 		CEB5E0291C17D383000B5E65 /* window.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = window.wav; sourceTree = "<group>"; };
 		CEB5E02A1C17D383000B5E65 /* z01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = z01.wav; sourceTree = "<group>"; };
 		CEB5E02B1C17D383000B5E65 /* z03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = z03.wav; sourceTree = "<group>"; };
+		CEFA6EF31C17DD930099E66B /* VADCheck.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VADCheck.c; sourceTree = "<group>"; };
+		CEFA6EF41C17DD930099E66B /* VADCheck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VADCheck.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +143,8 @@
 			isa = PBXGroup;
 			children = (
 				CEB5E0131C17D383000B5E65 /* sounds */,
+				CEFA6EF31C17DD930099E66B /* VADCheck.c */,
+				CEFA6EF41C17DD930099E66B /* VADCheck.h */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -166,7 +210,8 @@
 			buildPhases = (
 				58C0C9871BCFB266007D4002 /* Sources */,
 				58C0C9881BCFB266007D4002 /* Frameworks */,
-				58C0C9891BCFB266007D4002 /* CopyFiles */,
+				58C0C9891BCFB266007D4002 /* Copy 16bit_PCM_big_endian_16000_mono Sounds */,
+				CEFA6EEB1C17DCBD0099E66B /* Copy 16bit_PCM_intel_endian_16000_mono Sounds */,
 			);
 			buildRules = (
 			);
@@ -213,6 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEFA6EF51C17DD930099E66B /* VADCheck.c in Sources */,
 				58C0C98F1BCFB266007D4002 /* main.c in Sources */,
 				58C0C99A1BCFB2A4007D4002 /* VAD.c in Sources */,
 			);

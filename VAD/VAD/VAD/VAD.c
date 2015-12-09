@@ -76,10 +76,12 @@ VADContextRef VADContextCreate() {
 }
 
 void VADContextRelease(VADContextRef context) {
-    VADContextReleaseBuffer(context);
-    free(context);
+    if (context != NULL) {
+        VADContextReleaseBuffer(context);
+        free(context);
 
-    context = NULL;
+        context = NULL;
+    }
 }
 
 void VADContextReleaseBuffer(VADContextRef context) {
@@ -214,7 +216,6 @@ VADState VADContextProcessFrames(const VADContextRef context, const short *frame
         }
     }
 
-    // XXX: Souldn't the 'time' variable be local? Is it really necessary to keep it in the context?
     context->time = ((++context->frame_number) * (double)CHUNK_SIZE) / context->sample_rate;
 
     if (is_frame_active) {
@@ -255,26 +256,26 @@ float VADFrameCalculateEnergy(const float *frames, size_t frames_count) {
 float *VADFrameNormalize(const short *frames, size_t frames_count) {
     float *const normalized_frames = (float *)malloc(sizeof(float) * frames_count);
     for (size_t i = 0; i < frames_count; i++) {
-        normalized_frames[i] = frames[i] / SHRT_MAX;
+        normalized_frames[i] = frames[i] / (float)SHRT_MAX;
     }
 
     return normalized_frames;
 }
 
 size_t VADFrameCalculateZeroCrossingRate(const short *frame, size_t frames_count) {
-    size_t zrc = 0;
+    size_t zcr = 0;
     short sign = 0;
     short last_sign = 0;
     for (size_t i = 0; i < frames_count; i++) {
         sign = (frame[i] > 0) ? 1 : -1;
 
         if ((last_sign != 0) && (sign != last_sign)) {
-            last_sign = sign;
-            zrc++;
+            zcr++;
         }
+        last_sign = sign;
     }
 
-    return zrc;
+    return zcr;
 }
 
 #undef CHUNK_SIZE
